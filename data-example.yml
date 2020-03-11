@@ -1,0 +1,24 @@
+products:
+  - Network
+  - Zoom meetings
+  - Kaltura
+  - Media site
+  - Panopto
+  - Metadata
+current:
+  - title: Metadata service down
+    body: md.nordu.net is currently down. This affects all saml logins that uses md.nordu.net for discovery (choose your IdP).
+    tags:
+      - saml-login
+    updates: []
+    what: outage
+    products:
+      - Metadata
+planned:
+  - title: md.nordu.net maintanance
+    body: Planned maintenance on Metadata <a href="#">NORDUNET-45553</a>
+    products:
+      - Metadata
+    start: 2022-11-12 19:00 UTC
+    duration: 4 hours
+past: []

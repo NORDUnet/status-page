@@ -1,0 +1,67 @@
+{% extends 'layout.html' %}
+{% block body %}
+  {% for event in current %}
+  <section class="event current {{event.what}}">
+      <header class="flex">
+        <h3>{{event.title}}</h3>
+        <span class="tags">{{event.tags|join(', ')}}</span>
+      </header>
+      <div class="content">
+        <p><span class="somedae">{{event.start}}</span> </p>
+        {{event.body|safe}}
+      </div>
+    </section>
+  {% endfor %}
+
+  <section class="overview two-column">
+    {% for product in products %}
+    <div class="flex item">
+      <p>{{product}}</p><i class="icon icon-{{service_status[product]|default('operational')}}"></i>
+    </div>
+    {% endfor %}
+  </section>
+  <section class="legend flex">
+    <p><i class="icon icon-ok"></i> Operational</p>
+    <p><i class="icon icon-partial"></i> Degraded</p>
+    <p><i class="icon icon-outage"></i> Outage</p>
+    <p><i class="icon icon-maintenance"></i> Maintenance</p>
+  </section>
+  {% if planned %}
+  <h2>Upcomming maintenance</h2>
+  {% for event in planned %}
+    <section class="event maintenance upcomming">
+      <header>
+        <h3>{{event.title}}</h3>
+      </header>
+      <div class="content">
+        <p><span class="somedae">{{event.start}}</span></p>
+        {{event.body|safe}}
+      </div>
+    </section>
+    {% endfor %}
+  {% endif %}
+
+  <h2>Zoom stats</h2>
+
+  <img src="zoom/zoom_users_one_day.png">
+  <img src="zoom/zoom_users_one_week.png">
+  <img src="zoom/zoom_users_four_weeks.png">
+
+  <section id="timeline">
+    <h2>Past Incidents</h2>
+    {% if not past %}
+     <div class="incident">
+       <h3>Today</h3>
+       <hr>
+       <p>No incidents reported.</p>
+     </div>
+    {% endif %}
+    {% for event in past %}
+     <div class="incident">
+       <h3>{{event.start}}</h3>
+       <hr>
+       {{ event.body|safe}}
+     </div>
+    {% endfor %}
+   </section>
+{% endblock %}
