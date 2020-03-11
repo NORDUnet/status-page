@@ -15,6 +15,9 @@
       font-size: 12px;
       color: #ccc;
     }
+    img {
+      max-width: 100%;
+    }
     .flex {
       display: flex;
       flex-flow: row wrap;
@@ -100,14 +103,14 @@
       line-height: 20px;
       font-style: normal;
     }
-    .icon-ok, .icon-operational {
+    .icon-ok, .operational {
       color: #2fcc66;
     }
     .icon-ok::after, .icon-operational::after {
       content: "\2714";
     }
 
-    .icon-degraded {
+    .icon-degraded, .degraded {
       color: #f43bff;
     }
     .icon-degraded::after {
@@ -115,21 +118,21 @@
       content: "\2b07";
     }
 
-    .icon-partial {
+    .icon-partial, .partial {
       color: #e67e22;
     }
     .icon-partial::after {
       content: "\26a0";
     }
 
-    .icon-outage {
+    .icon-outage, .outage {
       color: #e67e22;
     }
     .icon-outage::after {
       content: "\274c";
     }
 
-    .icon-maintenance {
+    .icon-maintenance, .maintenance {
       color: #3b9aff;
     }
     .icon-maintenance::after {

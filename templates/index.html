@@ -16,15 +16,9 @@
   <section class="overview two-column">
     {% for product in products %}
     <div class="flex item">
-      <p>{{product}}</p><i class="icon icon-{{service_status[product]|default('operational')}}"></i>
+      <p>{{product}}</p><p class="{{service_status[product]|default('operational')}}">{{service_status[product]|default('operational')|capitalize()}}</p>
     </div>
     {% endfor %}
-  </section>
-  <section class="legend flex">
-    <p><i class="icon icon-ok"></i> Operational</p>
-    <p><i class="icon icon-partial"></i> Degraded</p>
-    <p><i class="icon icon-outage"></i> Outage</p>
-    <p><i class="icon icon-maintenance"></i> Maintenance</p>
   </section>
   {% if planned %}
   <h2>Upcomming maintenance</h2>
@@ -43,9 +37,15 @@
 
   <h2>Zoom stats</h2>
 
-  <img src="zoom/zoom_users_one_day.png">
-  <img src="zoom/zoom_users_one_week.png">
-  <img src="zoom/zoom_users_four_weeks.png">
+  <a href="zoom/zoom_users_one_day.png">
+    <img src="zoom/zoom_users_one_day.png">
+  </a>
+  <a href="zoom/zoom_users_one_week.png">
+    <img src="zoom/zoom_users_one_week.png">
+  </a>
+  <a href="zoom/zoom_users_four_weeks.png">
+    <img src="zoom/zoom_users_four_weeks.png">
+  </a>
 
   <section id="timeline">
     <h2>Past Incidents</h2>
