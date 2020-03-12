@@ -13,10 +13,13 @@
 
     footer {
       font-size: 12px;
-      color: #ccc;
+      color: #808080;
     }
     img {
       max-width: 100%;
+    }
+    a {
+      color: #1BAAD7;
     }
     .flex {
       display: flex;
@@ -27,9 +30,15 @@
     .flex-column {
       flex-flow: column wrap;
     }
+    .flex-1 {
+      flex-basis: 33%
+    }
+    .flex-2 {
+      flex-basis: 66%
+    }
 
     .main {
-      max-width: 720px;
+      max-width: 1024px;
       margin: 0 auto;
     }
 
@@ -180,11 +189,15 @@
       color: #ffffff;
     }
     </style>
+    {% block head %}
+    {% endblock %}
   </head>
   <body>
     <header id="header">
       <div class="main">
-        <img src="https://idp.nordu.net/idp/images/nordunet.png">
+        <a href="/">
+          <img src="https://idp.nordu.net/idp/images/nordunet.png">
+        </a>
       </div>
     </header>
     <div class="flex main flex-column">

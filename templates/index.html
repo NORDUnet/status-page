@@ -1,5 +1,13 @@
 {% extends 'layout.html' %}
+{% block head %}
+<meta http-equiv="refresh" content="60">
+{% endblock %}
 {% block body %}
+  {% if not current %}
+    <div class="all-systems status-ok">
+      <h2>All Systems Operational</h2>
+    </div>
+  {% endif %}
   {% for event in current %}
   <section class="event current {{event.what}}">
       <header class="flex">
@@ -37,16 +45,17 @@
 
   <h2>Zoom stats</h2>
 
-  <a href="zoom/zoom_users_one_day.png">
-    <img src="zoom/zoom_users_one_day.png">
-  </a>
-  <a href="zoom/zoom_users_one_week.png">
-    <img src="zoom/zoom_users_one_week.png">
-  </a>
-  <a href="zoom/zoom_users_four_weeks.png">
-    <img src="zoom/zoom_users_four_weeks.png">
-  </a>
-
+  <section id="zoom">
+    <section class="flex">
+      <a class="flex-1" href="zoom/zoom_users_current.png">
+        <img src="zoom/zoom_users_current.png">
+      </a>
+      <a class="flex-2" href="zoom/zoom_users_one_day.png">
+        <img src="zoom/zoom_users_one_day.png">
+      </a>
+    </section>
+    <p><a href="zoom.html">More zoom stats</a></p>
+  </section>
   <section id="timeline">
     <h2>Past Incidents</h2>
     {% if not past %}
