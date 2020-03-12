@@ -13,8 +13,9 @@ def gen_page(env, page, data, out_dir):
 
 
 def main(out_dir, data_path, dev=False):
+    base_path = os.path.dirname(os.path.abspath(__file__))
     env = Environment(
-        loader=FileSystemLoader('templates'),
+        loader=FileSystemLoader(os.path.join(base_path, 'templates')),
         autoescape=select_autoescape(['html', 'xml'])
     )
 
