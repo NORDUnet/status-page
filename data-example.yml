@@ -2,23 +2,60 @@ products:
   - Network
   - Zoom meetings
   - Kaltura
-  - Media site
+  - MediaSite
   - Panopto
   - Metadata
 current:
-  - title: Metadata service down
-    body: md.nordu.net is currently down. This affects all saml logins that uses md.nordu.net for discovery (choose your IdP).
-    tags:
-      - saml-login
-    updates: []
-    what: outage
+  - title: Creating zoom meetings
+    status: degraded
     products:
-      - Metadata
-planned:
-  - title: md.nordu.net maintanance
-    body: Planned maintenance on Metadata <a href="#">NORDUNET-45553</a>
+      - Zoom meetings
+    updates:
+      - title: Investigating
+        time: 2020-03-12 10:00 UTC
+        body: >
+          We are currently having errors creating new meetings on the Zoom service, we are working to resolve the issue!
+          We are working with Zoom to resolve this issue.
+    body: >
+      <p>We are currently having errors creating new meetings on the Zoom service, we are working to resolve the issue!</p>
+      <p>The quick fix is as an Zoom admin login to your account under:</p>
+      <ul>
+      <li>user management</li>
+      <li>Users</li>
+      <li>Advanced</li>
+      <li>"Change all account members who are not administrators” - From On-Prem to Licensed</li>
+      </ul>
+      <p>We are currently working with Zoom to resolve this issue, we are very sorry for the inconvenience this is causing!</p>
+planned: []
+past:
+  - title: Creating zoom meetings
+    status: degraded
     products:
-      - Metadata
-    start: 2022-11-12 19:00 UTC
-    duration: 4 hours
-past: []
+      - Zoom meetings
+    start: 2020-03-12 10:00 UTC
+    resolved: 2020-03-12 13:00 UTC
+    summary: >
+      <p>Due to additional pressure on the Zoom service, there was problems with creating new meetings.</p>
+    updates:
+      - title: Resolved
+        time: 2020-03-12 14:00 UTC
+        body: The incident has been resolved.
+      - title: Monitoring
+        time: 2020-03-12 13:00 UTC
+        body: A fix has been deployed and creating new meetings should work again. We contiune to monitor the situation.
+
+      - title: Investigating
+        time: 2020-03-12 10:00 UTC
+        body: >
+          We are currently having errors creating new meetings on the Zoom service, we are working to resolve the issue!
+          We are working with Zoom to resolve this issue.
+    body: >
+      <p>We are currently having errors creating new meetings on the Zoom service, we are working to resolve the issue!</p>
+      <p>The quick fix is as an Zoom admin login to your account under:</p>
+      <ul>
+      <li>user management</li>
+      <li>Users</li>
+      <li>Advanced</li>
+      <li>"Change all account members who are not administrators” - From On-Prem to Licensed</li>
+      </ul>
+      <p>We are currently working with Zoom to resolve this issue, we are very sorry for the inconvenience this is causing!</p>

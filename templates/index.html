@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block head %}
-<meta http-equiv="refresh" content="60">
+    <meta http-equiv="refresh" content="60">
 {% endblock %}
 {% block body %}
   {% if not current %}
@@ -9,16 +9,7 @@
     </div>
   {% endif %}
   {% for event in current %}
-  <section class="event current {{event.what}}">
-      <header class="flex">
-        <h3>{{event.title}}</h3>
-        <span class="tags">{{event.tags|join(', ')}}</span>
-      </header>
-      <div class="content">
-        <p><span class="somedae">{{event.start}}</span> </p>
-        {{event.body|safe}}
-      </div>
-    </section>
+    {% include "current_event.html" %}
   {% endfor %}
 
   <section class="overview two-column">
@@ -48,10 +39,10 @@
   <section id="zoom">
     <section class="flex">
       <a class="flex-1" href="zoom/zoom_users_current.png">
-        <img src="zoom/zoom_users_current.png">
+        <img src="{{static_prefix}}zoom/zoom_users_current.png">
       </a>
       <a class="flex-2" href="zoom/zoom_users_one_day.png">
-        <img src="zoom/zoom_users_one_day.png">
+        <img src="{{static_prefix}}zoom/zoom_users_one_day.png">
       </a>
     </section>
     <p><a href="zoom.html">More zoom stats</a></p>
@@ -69,7 +60,15 @@
      <div class="incident">
        <h3>{{event.start}}</h3>
        <hr>
-       {{ event.body|safe}}
+       <h4 class="{{event.status}}">{{event.title}} ({{event.status|capitalize()}})</h4>
+       {% for update in event.updates %}
+       <p class="update">
+         {% if update.title %}<strong>{{update.title}}</strong> - {% endif %}
+         {{update.body|safe}}
+         <br>
+         <small>{{update.time}}</small>
+       </p>
+       {% endfor %}
      </div>
     {% endfor %}
    </section>

@@ -12,7 +12,7 @@ def gen_page(env, page, data, out_dir):
         print('Created,', path)
 
 
-def main(out_dir, data_path):
+def main(out_dir, data_path, dev=False):
     env = Environment(
         loader=FileSystemLoader('templates'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -27,9 +27,11 @@ def main(out_dir, data_path):
     service_status = {}
     for event in reversed(data.get('current', [])):
         for product in event.get('products', []):
-            service_status[product] = event.get('what', 'operational')
+            service_status[product] = event.get('status', 'operational')
 
     data['service_status'] = service_status
+    if dev:
+        data['static_prefix'] = 'https://status.nordu.net/'
 
     gen_page(env, 'index.html', data, out_dir)
     gen_page(env, 'zoom.html', data, out_dir)
@@ -47,6 +49,10 @@ if __name__ == '__main__':
         '--out',
         default='static',
         help='Path to output directory.')
+    parser.add_argument(
+        '--dev',
+        action='store_true',
+        help='Which data file to use when gennerating pages')
 
     args = parser.parse_args()
-    main(args.out, args.data)
+    main(args.out, args.data, args.dev)

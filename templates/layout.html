@@ -3,193 +3,26 @@
   <head>
     <meta charset="utf-8">
     <title>Status Page - NORDUnet</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon">
     <style type="text/css" media="all">
-    html {
-       font-family: sans-serif;
-    }
-    body,h3 {
-      margin: 0;
-    }
-
-    footer {
-      font-size: 12px;
-      color: #808080;
-    }
-    img {
-      max-width: 100%;
-    }
-    a {
-      color: #1BAAD7;
-    }
-    .flex {
-      display: flex;
-      flex-flow: row wrap;
-      justify-content: space-around;
-    }
-
-    .flex-column {
-      flex-flow: column wrap;
-    }
-    .flex-1 {
-      flex-basis: 33%
-    }
-    .flex-2 {
-      flex-basis: 66%
-    }
-
-    .main {
-      max-width: 1024px;
-      margin: 0 auto;
-    }
-
-    .status-ok {
-      color: #FFFFFF;
-      background-color: #2fcc66;
-    }
-
-    .all-systems {
-      padding: 0 10px;
-    }
-
-    .overview {
-      margin-top: 16px;
-    }
-    .item {
-      border: 1px solid #efefef;
-      border-top-width: 0px;
-      border-left-width: 0px;
-      justify-content: space-between;
-      align-items: center;
-      box-sizing: border-box;
-      padding: 0 8px;
-    }
-
-    .item:first-child {
-      border-radius: 4px 0 0 0;
-      border-top-width: 1px;
-    }
-    .item:nth-child(2) {
-      border-radius: 0 4px 0 0;
-      border-top-width: 1px;
-    }
-    .item:nth-child(odd) {
-      border-left-width: 1px;
-    }
-
-    .item:nth-last-child(1):nth-child(even) {
-      border-radius: 0 0 4px 0;
-    }
-
-    .item:nth-last-child(1):nth-child(odd) {
-      border-radius: 0 0 4px 4px;
-    }
-    .item:nth-last-child(2) {
-      border-radius: 0 0 4px 0;
-    }
-    .item:nth-last-child(2):nth-child(odd) {
-      border-radius: 0 0 0 4px;
-    }
-    .item:nth-child(2):nth-last-child(2) {
-      border-radius: 0 4px 4px 0;
-    }
-    .two-column {
-      display: flex;
-      flex-flow: row wrap;
-    }
-
-    .two-column .item {
-      flex-basis: 100%;
-      flex: 1;
-      min-width: 40%;
-      max-width: 50%;
-    }
-
-    .icon {
-      display: inline-block;
-      height: 20px;
-      width: 20px;
-      text-align: center;
-      line-height: 20px;
-      font-style: normal;
-    }
-    .icon-ok, .operational {
-      color: #2fcc66;
-    }
-    .icon-ok::after, .icon-operational::after {
-      content: "\2714";
-    }
-
-    .icon-degraded, .degraded {
-      color: #f43bff;
-    }
-    .icon-degraded::after {
-      /*content: "\1f5f2";*/
-      content: "\2b07";
-    }
-
-    .icon-partial, .partial {
-      color: #e67e22;
-    }
-    .icon-partial::after {
-      content: "\26a0";
-    }
-
-    .icon-outage, .outage {
-      color: #e67e22;
-    }
-    .icon-outage::after {
-      content: "\274c";
-    }
-
-    .icon-maintenance, .maintenance {
-      color: #3b9aff;
-    }
-    .icon-maintenance::after {
-      content: "\2699";
-    }
-    #header {
-      background-color: #00a8d9;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      margin: 0;
-      padding: 4px 10px;
-    }
-
-    .tags {
-      font-size: 12px;
-      font-weight: normal;
-      background: rgba(255,255,255,0.2);
-      padding: 4px;
-      border-radius: 4px;
-    }
-    .event {
-      margin: 10px 0;
-      border-radius: 4px;
-      box-shadow: 4px 4px 5px #efefef;
-    }
-    .event header {
-      border-radius: 4px 4px 0 0;
-      justify-content: space-between;
-      background-color: #ccc;
-    }
-    .event .content {
-      padding: 4px 10px;
-      border: 1px solid #efefef;
-      border-radius: 0 0 4px 4px;
-    }
-    .event.outage header {
-      background-color: #f32851;
-      color: #ffffff;
-    }
-    .event.maintenance header {
-      background-color: #3b9aff;
-      color: #ffffff;
-    }
+      {% include 'main.css' %}
     </style>
     {% block head %}
+    {% endblock %}
+    {% block js %}
+    <script charset="utf-8">
+      function refreshbody() {
+        fetch(window.location)
+          .then(function(resp){
+            return resp.text()
+            })
+          .then(function(page) {
+            const $page = document.createElement('div');
+            $page.innerHTML = page;
+            console.log($page.querySelector('body'))
+            })
+      }
+    </script>
     {% endblock %}
   </head>
   <body>
@@ -209,7 +42,7 @@
         {% endblock %}
     </div>
     <footer class="flex main">
-      <p>NORDUnet A/S | Kastruplundgade 22 DK-2770 Kastrup DENMARK | Phone +45 32 46 25 00 | Fax +45 45 76 23 66 | <a href="mailto:info@nordu.net">info@nordu.net</a></p>
+      <p>NORDUnet A/S | Kastruplundgade 22 DK-2770 Kastrup DENMARK</p>
     </footer>
   </body>
 </html>

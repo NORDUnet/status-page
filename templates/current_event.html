@@ -1,0 +1,10 @@
+  <section class="event current {{event.status}}">
+      <header class="flex">
+        <h3>{{event.title}}</h3>
+        {% if event.tags %}<span class="tags">{{event.tags|join(', ')}}</span>{% endif %}
+      </header>
+      <div class="content">
+        <p><span class="somedae">{{event.start}}</span> </p>
+        {{event.body|safe}}
+      </div>
+    </section>
