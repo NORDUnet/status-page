@@ -1,6 +1,16 @@
 {% extends 'layout.html' %}
+{% block head %}
+    <meta http-equiv="refresh" content="120">
+{% endblock %}
 {% block body %}
+
   <h2>Zoom stats</h2>
+
+  {% for event in current %}
+    {% if 'Zoom meetings' in event.products %}
+    {% include "current_event.html" %}
+    {% endif %}
+  {% endfor %}
 
   <h3>Curent Zoom Users</h3>
   <a href="/zoom/zoom_users_current.png">
