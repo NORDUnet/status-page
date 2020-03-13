@@ -9,7 +9,7 @@ def gen_page(env, page, data, out_dir):
     with open(path, 'w') as f:
         template = env.get_template(page)
         f.write(template.render(**data))
-        print('Created,', path)
+        print('Created:', path)
 
 
 def main(out_dir, data_path, dev=False):
