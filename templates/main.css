@@ -29,6 +29,10 @@
       justify-content: space-around;
     }
 
+    .graphs {
+      min-height: 274px;
+    }
+
     .flex-column {
       flex-flow: column wrap;
     }
