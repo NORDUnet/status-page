@@ -152,6 +152,10 @@
       background-color: #f32851;
       color: #ffffff;
     }
+    .event.operational header {
+      color: #FFFFFF;
+      background-color: #2fcc66;
+    }
     .event {
       color: #000;
     }
