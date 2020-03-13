@@ -7,7 +7,7 @@
   <h2>Zoom stats</h2>
 
   {% for event in current %}
-    {% if 'Zoom meetings' in event.products %}
+    {% if 'Zoom' in event.products %}
     {% include "current_event.html" %}
     {% endif %}
   {% endfor %}
