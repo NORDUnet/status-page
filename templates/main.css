@@ -115,6 +115,10 @@
       color: #3b9aff;
     }
 
+    .muted{
+      color: #808080;
+    }
+
     #header {
       background-color: #00a8d9;
       width: 100%;

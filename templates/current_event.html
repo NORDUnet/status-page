@@ -4,7 +4,7 @@
         {% if event.tags %}<span class="tags">{{event.tags|join(', ')}}</span>{% endif %}
       </header>
       <div class="content">
-        <p><span class="somedae">{{event.start}}</span> </p>
+        <p><span class="muted">{{event.start}}</span> </p>
         {{event.body|safe}}
       </div>
     </section>

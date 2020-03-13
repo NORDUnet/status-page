@@ -32,7 +32,7 @@ def main(out_dir, data_path, dev=False):
 
     data['service_status'] = service_status
     if dev:
-        data['static_prefix'] = 'https://status.nordu.net/'
+        data['static_prefix'] = 'https://status.nordu.net'
 
     gen_page(env, 'index.html', data, out_dir)
     gen_page(env, 'zoom.html', data, out_dir)

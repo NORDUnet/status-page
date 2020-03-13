@@ -19,6 +19,9 @@
     </div>
     {% endfor %}
   </section>
+  {% for event in info %}
+    {% include "current_event.html" %}
+  {% endfor %}
   {% if planned %}
   <h2>Upcomming maintenance</h2>
   {% for event in planned %}
@@ -27,7 +30,7 @@
         <h3>{{event.title}}</h3>
       </header>
       <div class="content">
-        <p><span class="somedae">{{event.start}}</span></p>
+        <p><span class="muted">{{event.start}}</span></p>
         {{event.body|safe}}
       </div>
     </section>
@@ -38,11 +41,11 @@
 
   <section id="zoom">
     <section class="flex">
-      <a class="flex-1" href="zoom/zoom_users_current.png">
-        <img src="{{static_prefix}}zoom/zoom_users_current.png">
+      <a class="flex-1" href="/zoom/zoom_users_current.png">
+        <img src="{{static_prefix}}/zoom/zoom_users_current.png">
       </a>
-      <a class="flex-2" href="zoom/zoom_users_one_day.png">
-        <img src="{{static_prefix}}zoom/zoom_users_one_day.png">
+      <a class="flex-2" href="/zoom/zoom_users_one_day.png">
+        <img src="{{static_prefix}}/zoom/zoom_users_one_day.png">
       </a>
     </section>
     <p><a href="zoom.html">More zoom stats</a></p>
