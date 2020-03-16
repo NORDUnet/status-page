@@ -6,5 +6,13 @@
       <div class="content">
         <p><span class="muted">{{event.start}}</span> </p>
         {{event.body|safe}}
+        {% for update in event.updates %}
+          <p class="update">
+          {% if update.title %}<strong>{{update.title}}</strong> - {% endif %}
+          {{update.body|safe}}
+         <br>
+         <small>{{update.time}}</small>
+          </p>
+        {% endfor %}
       </div>
     </section>
