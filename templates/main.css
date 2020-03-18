@@ -1,9 +1,30 @@
+    html, body, div, span, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    abbr, address, cite, code,
+    del, dfn, em, img, ins, kbd, q, samp,
+    small, strong, sub, sup, var,
+    b, i,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, figcaption, figure,
+    footer, header, hgroup, menu, nav, section, summary,
+    time, mark, audio, video {
+        margin:0;
+        padding:0;
+        border:0;
+        outline:0;
+        vertical-align:baseline;
+        background:transparent;
+    }
+
     html {
        font-family: sans-serif;
        font-size: 16px;
     }
-    body,h3 {
-      margin: 0;
+
+    body {
+      line-height: 1;
     }
 
     footer {
@@ -13,11 +34,27 @@
     img {
       max-width: 100%;
     }
+    p {
+      margin-bottom: 16px;
+    }
     a, .link {
       color: #1BAAD7;
       text-decoration: underline;
       cursor: pointer;
     }
+    h1,h2,h3,h4,h4 {
+      margin: 16px 0 10px 0;
+    }
+    header {
+      padding: 4px 10px;
+    }
+    #header {
+      background-color: #00a8d9;
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 0;
+    }
+
     .ndn-logo {
       width: 255px;
       height: 65px;
@@ -77,6 +114,11 @@
       align-items: center;
       box-sizing: border-box;
       padding: 0 8px;
+      min-height: 50px;
+    }
+    
+    .item p {
+      margin: 0;
     }
 
     .item:first-child {
@@ -137,17 +179,6 @@
       display: none;
     }
 
-    #header {
-      background-color: #00a8d9;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      margin: 0;
-      padding: 4px 10px;
-    }
-
     .tags {
       font-size: 12px;
       font-weight: normal;
@@ -156,10 +187,15 @@
       border-radius: 4px;
     }
     .event {
-      margin: 10px 0;
+      margin-bottom: 10px;
       border-radius: 4px;
       box-shadow: 4px 4px 5px #efefef;
     }
+
+    .event h3 {
+      margin: 0;
+    }
+
     .event header {
       border-radius: 4px 4px 0 0;
       justify-content: space-between;
