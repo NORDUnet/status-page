@@ -4,7 +4,22 @@
         {% if event.tags %}<span class="tags">{{event.tags|join(', ')}}</span>{% endif %}
       </header>
       <div class="content">
-        <p><span class="muted">{{event.start}}</span> </p>
+        {% if event.start %}
+        <p class="muted">
+          Incident start: {{event.start}}
+          {% if event.closed %}
+          <br>
+          Incident closed: {{event.closed}}
+          {% endif %}
+        </p>
+        {% endif %}
+        {% if event.system_status %}
+        <p>
+          System status: <span class="{{event.system_status}}">{{event.system_status|capitalize()}}</span>
+          <br>
+          User impact: <span class="{{event.user_impact}}">{{event.user_impact|capitalize()}}</span>
+        </p>
+        {% endif %}
         {{event.body|safe}}
         {% for update in event.updates %}
           <p class="update">
