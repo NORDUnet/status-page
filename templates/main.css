@@ -160,7 +160,7 @@
       border: 1px solid #efefef;
       border-radius: 0 0 4px 4px;
     }
-    .event.outage header {
+    .event.outage header, .event.critical header {
       background-color: #f32851;
       color: #ffffff;
     }
