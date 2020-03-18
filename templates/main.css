@@ -244,9 +244,9 @@
     }
 
 
-    @media all and (max-width: 1016px) {
+    @media all and (max-width: 1034px) {
       .main {
-        padding: 0 4px;
+        padding: 0 10px;
       }
 
       .flex-1, .flex-2 {
