@@ -13,8 +13,10 @@
     img {
       max-width: 100%;
     }
-    a {
+    a, .link {
       color: #1BAAD7;
+      text-decoration: underline;
+      cursor: pointer;
     }
     .ndn-logo {
       width: 255px;
@@ -115,6 +117,24 @@
       flex: 1;
       min-width: 40%;
       max-width: 50%;
+    }
+
+    #timeline {
+      display: none;
+    }
+
+    #timeline_show, #timeline_hide {
+      display: none;
+    }
+
+    #timeline_show:checked + label + #timeline {
+      display: block;
+    }
+    #timeline_show:checked + label {
+      display: none;
+    }
+    #timeline_hide:checked + #timeline {
+      display: none;
     }
 
     #header {

@@ -11,17 +11,7 @@
     {% endblock %}
     {% block js %}
     <script charset="utf-8">
-      function refreshbody() {
-        fetch(window.location)
-          .then(function(resp){
-            return resp.text()
-            })
-          .then(function(page) {
-            const $page = document.createElement('div');
-            $page.innerHTML = page;
-            console.log($page.querySelector('body'))
-            })
-      }
+
     </script>
     {% endblock %}
   </head>

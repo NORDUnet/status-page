@@ -55,8 +55,14 @@
     <p><a href="zoom.html">More zoom stats</a></p>
   </section>
   #}
+  
+  <input type="radio" name="timeline" id="timeline_show">
+  <label class="link"for="timeline_show">
+    <h2>Show Past Incidents</h2>
+  </label>
   <section id="timeline">
-    <h2>Past Incidents</h2>
+    <input type="radio" name="timeline" id="timeline_hide" checked>
+    <label class="link" for="timeline_hide"><h2>Hide Past Incidents</h2></label>
     {% if not past %}
      <div class="incident">
        <h3>Today</h3>
