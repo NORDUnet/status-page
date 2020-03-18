@@ -116,7 +116,7 @@
     .degraded {
       color: #f39128;
     }
-    .outage {
+    .outage, .critical {
       color: #f32851;
     }
     .maintenance {
