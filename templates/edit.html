@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <section class="event current maintenance">
+      <header class="flex">
+        <h3>Edit</h3>
+      </header>
+      <div class="content">
+        {% import 'edit_macros.html' as forms %}
+        <form class="flex" method="POST">
+          {{ forms.input('event_title', 'Title', value=event.title) }}
+
+          <div class="spacer"></div>
+          <label>Products:</label>
+          {% for product in products %}
+          <label class="checkbox">
+            {{product}}: <input type="checkbox" name="events_products[]" value="{{product}}" {% if product in event.products %}checked{% endif %}>
+          </label>
+          {% endfor %}
+
+          {{ forms.input('event_start', 'Incident start', value=event.start|default(now)) }}
+          {{ forms.input('event_closed', 'Incident closed', value=event.closed, placeholder="current_time: "+now) }}
+          {{ forms.select('event_system_status', 'System status', values=statuses, selected=event.system_status) }}
+          {{ forms.select('event_user_impact', 'User impact', values=statuses, selected=event.user_impact) }}
+          {{ forms.input('event_body', 'Body', type='textarea', value=event.body) }}
+
+          <h4 class="spacer">Add update</h4>
+          {{ forms.input('event_new_update_title', 'Title', placeholder='e.g. Investigating, Update, Monitoring, Resolved') }}
+          {{ forms.input('event_new_update_body', 'Body', type='textarea') }}
+          {{ forms.input('event_new_update_time', 'Time', placeholder=now) }}
+
+          <h4 class="spacer">Existing updates</h4>
+          {% for update in event.updates %}
+            <div class="spacer"><hr></div>
+            {{ forms.input('event_updates_%d_order'|format(loop.index), 'Ordering', value=loop.index) }}
+            {{ forms.input('event_updates_%d_title'|format(loop.index), 'Title', value=update.title) }}
+            {{ forms.input('event_updates_%d_body'|format(loop.index), 'Body', type='textarea', value=update.body) }}
+            {{ forms.input('event_updates_%d_time'|format(loop.index), 'Time', value=update.time, placeholder=now) }}
+            {% endfor %}
+            <div class="spacer"></div>
+          <input type="submit" name="submit" value="Submit">
+        </form>
+      </div>
+    </section>
+{% endblock %}

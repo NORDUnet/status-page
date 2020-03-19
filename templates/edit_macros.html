@@ -1,0 +1,20 @@
+        {% macro input(name, label, value='', type='text', placeholder=None,spacer=True) -%}
+        {% if spacer %}<div class="spacer"></div>{% endif %}
+        <label for="{{name}}">{{label}}:</label>
+        {% if type == 'textarea' %}
+        <textarea id="{{name}}" name="{{name}}"{% if placeholder %} placeholder="{{placeholder}}"{% endif %}>{{value}}</textarea>
+        {% else %}
+        <input type="{{ type }}" id="{{name}}" name="{{name}}" value="{{value}}"{% if placeholder %} placeholder="{{placeholder}}"{% endif %}>
+        {% endif %}
+        {%- endmacro %}
+
+        {% macro select(name, label, values=[], selected=[], spacer=True, filler=True) -%}
+        {% if spacer %}<div class="spacer"></div>{% endif %}
+          <label for="{{name}}">{{label}}:</label>
+          <select id="{{name}}" name="{{name}}">
+            {% for val in values %}
+            <option value="{{val}}" class="{{val}}" {% if selected == val %}selected{% endif %}>{{val}}</option>
+            {% endfor %}
+          </select>
+          {% if filler %}<div class="filler"></div>{% endif %}
+        {%- endmacro %}

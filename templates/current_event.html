@@ -2,6 +2,7 @@
       <header class="flex">
         <h3>{{event.title}}</h3>
         {% if event.tags %}<span class="tags">{{event.tags|join(', ')}}</span>{% endif %}
+        {% if show_edit %}<a href="edit/{{event.id}}">Edit</a>{% endif %}
       </header>
       <div class="content">
         {% if event.start %}

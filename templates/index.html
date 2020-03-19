@@ -74,7 +74,7 @@
      <div class="incident">
        <h3>{{event.start}}</h3>
        <hr>
-       <h4 class="{{event.status}}">{{event.title}} ({{event.status|capitalize()}})</h4>
+       <h4 class="{{event.status}}">{{event.title}} ({{event.status|capitalize()}}) {% if show_edit %}<a href="edit/{{event.id}}">Edit</a>{% endif %}</h4>
        {% for update in event.updates %}
        <p class="update">
          {% if update.title %}<strong>{{update.title}}</strong> - {% endif %}
