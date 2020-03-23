@@ -8,6 +8,7 @@
       <h2>All Systems Operational</h2>
     </div>
   {% endif %}
+  {% if show_edit %}<a href="new">Create event</a>{% endif %}
   {% for event in current %}
     {% include "current_event.html" %}
   {% endfor %}
