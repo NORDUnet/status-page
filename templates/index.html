@@ -3,12 +3,18 @@
     <meta http-equiv="refresh" content="60">
 {% endblock %}
 {% block body %}
+  {% if show_edit %}
+  <h2><a href="new">Create event</a></h2>
+  <form method="POST" action="publish">
+    Last deployed: {{last_deploy}}
+    <input type="submit" value="Deploy">
+  </form>
+  {% endif %}
   {% if not current %}
     <div class="all-systems status-ok">
       <h2>All Systems Operational</h2>
     </div>
   {% endif %}
-  {% if show_edit %}<a href="new">Create event</a>{% endif %}
   {% for event in current %}
     {% include "current_event.html" %}
   {% endfor %}

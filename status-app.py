@@ -1,11 +1,14 @@
-from flask import Flask, request, redirect, abort, render_template
+from flask import Flask, request, redirect, abort, render_template, g, url_for
+from functools import wraps
 import yaml
 from datetime import datetime, timezone
+import os
 
 
 app = Flask(__name__)
-DATA_PATH = 'data.yml'
+DATA_PATH = os.environ.get('DATA_PATH', 'data.yml')
 SECTIONS = ['current', 'info', 'planned', 'past']
+VALID_USERS = set()
 
 
 def str_presenter(dumper, data):
@@ -57,6 +60,26 @@ def save_data(data):
         yaml.dump(to_save, f, sort_keys=False, indent=2)
 
 
+@app.before_request
+def auth():
+    if app.env == 'development':
+        g.user = 'DevDev'
+        return
+    user = request.environ.get('REMOTE_USER') or request.args.get('user')
+    g.user = None
+    if user in VALID_USERS or not VALID_USERS:
+        g.user = user
+
+
+def login_required(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return abort(403)
+        return func(*args, **kwargs)
+    return decorated_function
+
+
 @app.route('/')
 def index():
     data = get_data()
@@ -68,6 +91,7 @@ def fields(data, starts_with):
 
 
 @app.route('/edit/<event_id>', methods=['POST', 'GET'])
+@login_required
 def edit(event_id):
     data = get_data()
     event = data['event_map'].get(event_id)
@@ -136,7 +160,7 @@ def edit(event_id):
             del event['user_impact']
             event['status'] = 'operational'
         save_data(data)
-        return redirect('/')
+        return redirect(url_for('index'))
 
     return render_template(
         'edit.html',
@@ -146,7 +170,31 @@ def edit(event_id):
         **data)
 
 
+@app.route('/delete/<event_id>', methods=['POST'])
+@login_required
+def delete_event(event_id):
+    data = get_data()
+
+    event_section = None
+    event = None
+    for section in SECTIONS:
+        for e in data.get(section) or []:
+            if e.get('id') == event_id:
+                event_section = section
+                event = e
+                break
+        if event_section:
+            break
+
+    if event_section:
+        data[event_section].remove(event)
+        save_data(data)
+
+    return redirect(url_for('index'))
+
+
 @app.route('/new', methods=['POST', 'GET'])
+@login_required
 def new_event():
     data = get_data()
     event = {}
@@ -176,10 +224,25 @@ def new_event():
             del event['user_impact']
             event['status'] = 'operational'
         save_data(data)
-        return redirect('/')
+        return redirect(url_for('index'))
 
     return render_template(
         'edit.html',
         event=event,
         sections=SECTIONS,
         **data)
+
+
+@app.route('/publish', methods=['POST'])
+@login_required
+def publish():
+    from status import main
+    out_dir = 'static'
+    main(out_dir, DATA_PATH)
+    # write deploy time
+
+    data = get_data()
+    data['last_deploy'] = data['now']
+    save_data(data)
+
+    return redirect(url_for('index'))

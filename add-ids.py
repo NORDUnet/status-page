@@ -27,7 +27,7 @@ def main(data_path, dry_run):
     all_posts = all_posts + (data.get('current') or [])
     current_ids = set([int(p['id']) for p in all_posts if p.get('id')])
 
-    next_id = max(current_ids) + 1
+    next_id = max(current_ids, default=0) + 1
 
     for post in all_posts:
         if 'id' not in post:

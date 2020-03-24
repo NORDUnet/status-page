@@ -1,4 +1,4 @@
 #!/bin/sh
 
-cd static || exit 2
-python3 -m http.server
+. venv/bin/activate
+FLASK_ENV=development FLASK_APP=status-app flask run
