@@ -1,12 +1,27 @@
-from flask import Flask, request, redirect, abort, render_template, g, url_for
+from flask import Flask, request, redirect, abort, render_template, g, url_for, session
 from functools import wraps
 import yaml
 from datetime import datetime, timezone
 import os
+import secrets
+SAML_ENABLE = os.environ.get('SAML_ENABLE')
+if SAML_ENABLE:
+    import saml2
+    import saml2.config
+    import saml2.client
+    import saml2.metadata
+    from saml2conf import SAML_CONFIG
 
 
 app = Flask(__name__)
+if 'SECRET_TOKEN' in os.environ:
+    app.secret_key = os.environ.get('SECRET_TOKEN')
+else:
+    secret_key = secrets.token_hex(16)
+    app.logger.info('No secret key supplied via SECRET_TOKEN env, using: %s', secret_key)
+    app.secret_key = secret_key
 DATA_PATH = os.environ.get('DATA_PATH', 'data.yml')
+OUT_DIR = os.environ.get('OUT_DIR', 'static')
 SECTIONS = ['current', 'info', 'planned', 'past']
 VALID_USERS = set()
 
@@ -65,7 +80,7 @@ def auth():
     if app.env == 'development':
         g.user = 'DevDev'
         return
-    user = request.environ.get('REMOTE_USER') or request.args.get('user')
+    user = request.environ.get('REMOTE_USER') or session.get('user')
     g.user = None
     if user in VALID_USERS or not VALID_USERS:
         g.user = user
@@ -75,6 +90,8 @@ def login_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
         if g.user is None:
+            if SAML_ENABLE:
+                return redirect(url_for('saml_login'))
             return abort(403)
         return func(*args, **kwargs)
     return decorated_function
@@ -237,8 +254,7 @@ def new_event():
 @login_required
 def publish():
     from status import main
-    out_dir = 'static'
-    main(out_dir, DATA_PATH)
+    main(OUT_DIR, DATA_PATH)
     # write deploy time
 
     data = get_data()
@@ -246,3 +262,68 @@ def publish():
     save_data(data)
 
     return redirect(url_for('index'))
+
+
+# SAML
+def _saml_client():
+    conf = saml2.config.Config()
+    conf.load(SAML_CONFIG)
+    return saml2.client.Saml2Client(config=conf)
+
+
+@app.route('/saml2/login')
+def saml_login():
+    came_from = request.args.get('next', '/')
+    if 'user' in session:
+        return f'Already logged in as {session["user"]} <a href="{came_from}">Go back again</a>'
+    # TODO: disco service, send to disco with entityID
+    # get entityID of IDP
+    saml_client = _saml_client()
+    idp_entityid = 'https://idp.nordu.net/idp/shibboleth'
+
+    reqid, info = saml_client.prepare_for_authenticate(
+        entityid=idp_entityid,
+    )
+    # Store requid + back to url?
+    session['relay_state'] = {reqid: came_from}
+    # Do redir
+    headers = dict(info['headers'])
+    return redirect(headers['Location'])
+
+
+# Assertion Consumer Service
+@app.route('/saml2/acs', methods=['POST'])
+def saml_acs():
+    client = _saml_client()
+    # Handle http post
+    outstanding_queries = None
+    if 'relay_state' in session:
+        outstanding_queries = session['relay_state']
+    authn_response = client.parse_authn_request_response(
+        request.form['SAMLResponse'],
+        saml2.BINDING_HTTP_POST,
+        outstanding_queries
+    )
+    attribute_values = authn_response.get_identity()
+    app.logger.debug('saml_acs authn_response: %s', attribute_values)
+
+    # Save info to session
+    session['user'] = attribute_values.get('eduPersonPrincipalName')
+    # Cleanup session
+    session.pop('relay_state')
+    # redirect back to original place
+    if authn_response.came_from:
+        return redirect(authn_response.came_from)
+    return redirect(url_for('index'))
+
+
+# export metadata
+@app.route('/saml2/metadata')
+def metadata():
+    # ui_info perhaps
+    client = _saml_client()
+    md = saml2.metadata.create_metadata_string(
+        configfile=None,
+        config=client.config
+    )
+    return md, {'Content-Type': 'text/xml'}

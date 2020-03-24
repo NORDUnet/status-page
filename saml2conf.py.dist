@@ -1,0 +1,23 @@
+import os
+import saml2
+
+SAML_CONFIG = {
+    'entityid': os.environ.get('ENTITY_ID', 'http://localhost:5000'),
+    'metadata': {
+        # 'remote': [{'url': 'https://idp.nordu.net/idp/shibboleth'}],
+        'local': [os.environ.get('METADATA_PATH', 'data/idp_metadata.xml')],
+    },
+    'service': {
+        'sp': {
+            'name': os.environ.get('SP_NAME', 'NORDUnet Status Page'),
+            'endpoints': {
+                'assertion_consumer_service': [
+                    ('http://localhost:5000/saml2/acs', saml2.BINDING_HTTP_POST),
+                ],
+            },
+        },
+    },
+    'key_file': os.environ.get('SP_KEY_PATH', 'data/sp.key'),
+    'cert_file': os.environ.get('SP_CRT_PATH', 'data/sp.crt'),
+    'xmlsec_path': ['/usr/bin/xmlsec1', '/usr/local/bin/xmlsec1'],
+}
