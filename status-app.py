@@ -82,7 +82,8 @@ def auth():
         return
     user = request.environ.get('REMOTE_USER') or session.get('user')
     g.user = None
-    if user in VALID_USERS or not VALID_USERS:
+    # Empty VALID_USERS means everyone who auths is ok
+    if not VALID_USERS or user in VALID_USERS:
         g.user = user
 
 
@@ -91,7 +92,7 @@ def login_required(func):
     def decorated_function(*args, **kwargs):
         if g.user is None:
             if SAML_ENABLE:
-                return redirect(url_for('saml_login'))
+                return redirect(url_for('saml_login', next=request.path))
             return abort(403)
         return func(*args, **kwargs)
     return decorated_function
@@ -246,6 +247,7 @@ def new_event():
     return render_template(
         'edit.html',
         event=event,
+        title='Create',
         sections=SECTIONS,
         **data)
 

@@ -3,7 +3,7 @@
 {% block body %}
     <section class="event current maintenance">
       <header class="flex">
-        <h3>Edit</h3>
+        <h3>{{title|default('Edit')}}</h3>
       </header>
       <div class="content">
         {% import 'edit_macros.html' as forms %}
