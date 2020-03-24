@@ -2,3 +2,5 @@ static/
 venv/
 __pycache__/
 .DS_Store
+saml2conf.py
+data/
