@@ -1,4 +1,6 @@
 Jinja2
 pyyaml
+# for status-app frontend
 flask
+# If running with SAML_ENABLED
 pysaml2
