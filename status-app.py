@@ -98,7 +98,7 @@ def login_required(func):
     return decorated_function
 
 
-@app.route('/admin')
+@app.route('/admin/')
 def index():
     data = get_data()
     return render_template('index.html', **data)
