@@ -98,7 +98,7 @@ def login_required(func):
     return decorated_function
 
 
-@app.route('/')
+@app.route('/admin')
 def index():
     data = get_data()
     return render_template('index.html', **data)
@@ -108,7 +108,7 @@ def fields(data, starts_with):
     return {k.replace(starts_with, '', 1): data[k] for k in data if k.startswith(starts_with)}
 
 
-@app.route('/edit/<event_id>', methods=['POST', 'GET'])
+@app.route('/admin/edit/<event_id>', methods=['POST', 'GET'])
 @login_required
 def edit(event_id):
     data = get_data()
@@ -188,7 +188,7 @@ def edit(event_id):
         **data)
 
 
-@app.route('/delete/<event_id>', methods=['POST'])
+@app.route('/admin/delete/<event_id>', methods=['POST'])
 @login_required
 def delete_event(event_id):
     data = get_data()
@@ -211,7 +211,7 @@ def delete_event(event_id):
     return redirect(url_for('index'))
 
 
-@app.route('/new', methods=['POST', 'GET'])
+@app.route('/admin/new', methods=['POST', 'GET'])
 @login_required
 def new_event():
     data = get_data()
@@ -252,7 +252,7 @@ def new_event():
         **data)
 
 
-@app.route('/publish', methods=['POST'])
+@app.route('/admin/publish', methods=['POST'])
 @login_required
 def publish():
     from status import main
