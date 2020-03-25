@@ -99,6 +99,7 @@ def login_required(func):
 
 
 @app.route('/admin/')
+@login_required
 def index():
     data = get_data()
     return render_template('index.html', **data)
