@@ -2,6 +2,8 @@ import os
 import argparse
 import yaml
 import mistletoe
+import re
+from datetime import datetime, timezone
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 
@@ -9,15 +11,44 @@ def markdown(x):
     return mistletoe.markdown(x)
 
 
-def gen_page(env, page, data, out_dir):
+def gen_page(env, page, data, out_dir, template=None):
     path = os.path.join(out_dir, page)
+    if not template:
+        template = page
     h = {
         'markdown': markdown,
     }
     with open(path, 'w') as f:
-        template = env.get_template(page)
+        template = env.get_template(template)
         f.write(template.render(h=h, **data))
         print('Created:', path)
+
+
+def atom_data(data, feed_url, entry_base_url):
+    feed_data = {
+        'title': 'NORDUnet Status Page',
+        'url': feed_url,
+        'id': feed_url,
+        'updated': datetime.now(timezone.utc).isoformat('T', 'seconds'),
+        'entries': [],
+    }
+    all_posts = (data.get('current') or []) + (data.get('past') or [])
+    for event in all_posts:
+        timestamps = [event.get('start')]
+        if event.get('closed'):
+            timestamps.append(event.get('closed'))
+        for update in event.get('updates') or []:
+            if update.get('time'):
+                timestamps.append(update.get('time'))
+        time_pattern = re.compile(r'^\d{4}-\d{2}-\d{2} \d{2}:\d{2}')
+        filtered_times = [t.replace(' UTC', ':00Z').replace(' ', 'T') for t in timestamps if t and time_pattern.match(t)]
+        filtered_times.sort(reverse=True)
+        if filtered_times:
+            event['updated'] = filtered_times[0]
+
+        event['id'] = '{}{}'.format(entry_base_url, event['id'])
+        feed_data['entries'].append(event)
+    return feed_data
 
 
 def main(out_dir, data_path, dev=False):
@@ -44,6 +75,13 @@ def main(out_dir, data_path, dev=False):
 
     gen_page(env, 'index.html', data, out_dir)
     gen_page(env, 'zoom.html', data, out_dir)
+
+    # setup feeds
+    # main feed
+    feed_url = os.environ.get('FEED_URL', 'https://status.nordu.net/feed.xml')
+    entry_base_url = feed_url.replace('feed.xml', '')
+    feed_data = atom_data(data, feed_url, entry_base_url)
+    gen_page(env, 'feed.xml', feed_data, out_dir, template='atom.xml')
 
 
 if __name__ == '__main__':

@@ -5,6 +5,8 @@ from datetime import datetime, timezone
 import os
 import secrets
 import mistletoe
+from status import main, atom_data
+
 SAML_ENABLE = os.environ.get('SAML_ENABLE')
 if SAML_ENABLE:
     import saml2
@@ -119,6 +121,15 @@ def login_required(func):
 def index():
     data = get_data()
     return render_template('index.html', **data)
+
+
+@app.route('/admin/feed.xml')
+def atom():
+    data = get_data()
+    feed_url = os.environ.get('FEED_URL', 'https://status.nordu.net/feed.xml')
+    entry_base_url = feed_url.replace('feed.xml', '')
+    feed_data = atom_data(data, feed_url, entry_base_url)
+    return render_template('atom.xml', **feed_data)
 
 
 def fields(data, starts_with):
@@ -271,7 +282,6 @@ def new_event():
 @app.route('/admin/publish', methods=['POST'])
 @login_required
 def publish():
-    from status import main
     main(OUT_DIR, DATA_PATH)
     # write deploy time
 
