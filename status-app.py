@@ -95,6 +95,8 @@ def auth():
         g.user = 'DevDev'
         return
     user = request.environ.get('REMOTE_USER') or session.get('user')
+    if user and isinstance(user, list):
+        user = user[0]
     g.user = None
     # Empty VALID_USERS means everyone who auths is ok
     if not VALID_USERS or user in VALID_USERS:
