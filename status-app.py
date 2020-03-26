@@ -85,6 +85,10 @@ def save_data(data):
         yaml.dump(to_save, f, sort_keys=False, indent=2)
 
 
+def next_id(data):
+    return max([int(k) for k in data['event_map']]) + 1
+
+
 @app.before_request
 def auth():
     if app.env == 'development':
@@ -229,11 +233,10 @@ def new_event():
     event = {}
 
     if request.method == 'POST':
-        next_id = int(max(data['event_map'].keys())) + 1
 
         event_form = fields(request.form, 'event_')
         event = {
-            'id': next_id,
+            'id': next_id(data),
             'title': event_form['title'],
             'status': event_form['user_impact'],
             'system_status': event_form['system_status'],
