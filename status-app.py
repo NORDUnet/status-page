@@ -262,6 +262,7 @@ def publish():
 
     data = get_data()
     data['last_deploy'] = data['now']
+    data['last_deploy_by'] = g.user
     save_data(data)
 
     return redirect(url_for('index'))

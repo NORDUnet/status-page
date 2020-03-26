@@ -6,7 +6,7 @@
   {% if show_edit %}
   <h2><a href="{{url_for('new_event')}}">Create event</a></h2>
   <form method="POST" action="{{url_for('publish')}}">
-    Last deployed: {{last_deploy}}
+    Last deployed: {{last_deploy}} by {{last_deploy_by}}.
     <input type="submit" value="Deploy">
   </form>
   {% endif %}
