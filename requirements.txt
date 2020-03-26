@@ -1,5 +1,6 @@
 Jinja2
 pyyaml
+mistletoe
 # for status-app frontend
 flask
 # If running with SAML_ENABLED

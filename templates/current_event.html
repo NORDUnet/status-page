@@ -2,7 +2,7 @@
       <header class="flex">
         <h3>{{event.title}}</h3>
         {% if event.tags %}<span class="tags">{{event.tags|join(', ')}}</span>{% endif %}
-        {% if show_edit %}<a href="{{url_for('edit', event_id=event.id)}}">Edit</a>{% endif %}
+        {% if show_edit %}<span class="tags"><a href="{{url_for('edit', event_id=event.id)}}">Edit</a></span>{% endif %}
       </header>
       <div class="content">
         {% if event.start %}
@@ -21,14 +21,16 @@
           User impact: <span class="{{event.user_impact}}">{{event.user_impact|capitalize()}}</span>
         </p>
         {% endif %}
-        {{event.body|safe}}
+
+        {{h.markdown(event.body)|safe}}
+
         {% for update in event.updates %}
-          <p class="update">
+          <div class="update">
           {% if update.title %}<strong>{{update.title}}</strong> - {% endif %}
-          {{update.body|safe}}
+          {{h.markdown(update.body)|safe}}
          <br>
          <small>{{update.time}}</small>
-          </p>
+          </div>
         {% endfor %}
       </div>
     </section>

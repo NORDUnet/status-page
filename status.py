@@ -1,14 +1,22 @@
 import os
 import argparse
 import yaml
+import mistletoe
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+
+def markdown(x):
+    return mistletoe.markdown(x)
 
 
 def gen_page(env, page, data, out_dir):
     path = os.path.join(out_dir, page)
+    h = {
+        'markdown': markdown,
+    }
     with open(path, 'w') as f:
         template = env.get_template(page)
-        f.write(template.render(**data))
+        f.write(template.render(h=h, **data))
         print('Created:', path)
 
 

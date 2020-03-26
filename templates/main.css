@@ -85,6 +85,13 @@
       min-width: auto;
     }
 
+    .update {
+      margin-bottom: 4px;
+    }
+    .update p {
+      display: inline-block;
+      margin: 0;
+    }
     .update small {
       color: #808080;
     }

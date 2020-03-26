@@ -4,6 +4,7 @@ import yaml
 from datetime import datetime, timezone
 import os
 import secrets
+import mistletoe
 SAML_ENABLE = os.environ.get('SAML_ENABLE')
 if SAML_ENABLE:
     import saml2
@@ -36,6 +37,10 @@ def str_presenter(dumper, data):
 yaml.add_representer(str, str_presenter)
 
 
+def markdown(x):
+    return mistletoe.markdown(x)
+
+
 def get_data():
     with open(DATA_PATH, 'r') as f:
         data = yaml.load(f, Loader=yaml.BaseLoader)
@@ -61,6 +66,9 @@ def get_data():
     all_posts = all_posts + (data.get('current') or [])
     data['event_map'] = {e.get('id'): e for e in all_posts}
     data['show_edit'] = True
+    data['h'] = {
+        'markdown': markdown,
+    }
     return data
 
 
@@ -69,6 +77,8 @@ def save_data(data):
     del to_save['event_map']
     del to_save['show_edit']
     del to_save['service_status']
+    if 'h' in to_save:
+        del to_save['h']
 
     to_save['now'] = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M %Z')
     with open(DATA_PATH, 'w') as f:
