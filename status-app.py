@@ -132,6 +132,15 @@ def atom():
     return render_template('atom.xml', **feed_data)
 
 
+@app.route('/admin/feed.json')
+def json_index():
+    data = get_data()
+    del data['h']
+    del data['event_map']
+    del data['last_deploy_by']
+    return data
+
+
 def fields(data, starts_with):
     return {k.replace(starts_with, '', 1): data[k] for k in data if k.startswith(starts_with)}
 

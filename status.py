@@ -3,6 +3,7 @@ import argparse
 import yaml
 import mistletoe
 import re
+import json
 from datetime import datetime, timezone
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
@@ -12,16 +13,21 @@ def markdown(x):
 
 
 def gen_page(env, page, data, out_dir, template=None):
-    path = os.path.join(out_dir, page)
     if not template:
         template = page
     h = {
         'markdown': markdown,
     }
+    template = env.get_template(template)
+    content = template.render(h=h, **data)
+    save_file(out_dir, page, content)
+
+
+def save_file(out_dir, name, content):
+    path = os.path.join(out_dir, name)
     with open(path, 'w') as f:
-        template = env.get_template(template)
-        f.write(template.render(h=h, **data))
-        print('Created:', path)
+        f.write(content)
+    print('Created:', path)
 
 
 def atom_data(data, feed_url, entry_base_url):
@@ -82,6 +88,10 @@ def main(out_dir, data_path, dev=False):
     entry_base_url = feed_url.replace('feed.xml', '')
     feed_data = atom_data(data, feed_url, entry_base_url)
     gen_page(env, 'feed.xml', feed_data, out_dir, template='atom.xml')
+
+    # Create json feed as well
+    json_out = {k: v for k, v in data.items() if k not in {'event_map', 'last_deploy_by'}}
+    save_file(out_dir, 'feed.json', json.dumps(json_out, indent=4))
 
 
 if __name__ == '__main__':
