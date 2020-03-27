@@ -82,16 +82,16 @@ def main(out_dir, data_path, dev=False):
     gen_page(env, 'index.html', data, out_dir)
     gen_page(env, 'zoom.html', data, out_dir)
 
+    # Create json feed
+    json_out = {k: v for k, v in data.items() if k not in {'event_map', 'last_deploy_by'}}
+    save_file(out_dir, 'feed.json', json.dumps(json_out, indent=4))
+
     # setup feeds
     # main feed
     feed_url = os.environ.get('FEED_URL', 'https://status.nordu.net/feed.xml')
     entry_base_url = feed_url.replace('feed.xml', '')
     feed_data = atom_data(data, feed_url, entry_base_url)
     gen_page(env, 'feed.xml', feed_data, out_dir, template='atom.xml')
-
-    # Create json feed as well
-    json_out = {k: v for k, v in data.items() if k not in {'event_map', 'last_deploy_by'}}
-    save_file(out_dir, 'feed.json', json.dumps(json_out, indent=4))
 
 
 if __name__ == '__main__':

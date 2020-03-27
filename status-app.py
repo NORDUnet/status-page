@@ -123,7 +123,7 @@ def index():
     return render_template('index.html', **data)
 
 
-@app.route('/admin/feed.xml')
+@app.route('/feed.xml')
 def atom():
     data = get_data()
     feed_url = os.environ.get('FEED_URL', 'https://status.nordu.net/feed.xml')
@@ -132,7 +132,7 @@ def atom():
     return render_template('atom.xml', **feed_data)
 
 
-@app.route('/admin/feed.json')
+@app.route('/feed.json')
 def json_index():
     data = get_data()
     del data['h']
