@@ -20,6 +20,9 @@
     <summary>{{entry.summary}}</summary>
     {% endif %}
     <content type="text">
+      System status: {{entry.system_status}}
+      User impact: {{entry.user_impact}}
+
       {{entry.body|striptags}}
       {% for upd in entry.updates %}
         {{upd.title}} - {{upd.body|striptags}}
