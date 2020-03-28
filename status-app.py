@@ -132,6 +132,19 @@ def atom():
     return render_template('atom.xml', **feed_data)
 
 
+@app.route('/planned.xml')
+def atom_planned():
+    data = get_data()
+    feed_url = os.environ.get('FEED_URL', 'https://status.nordu.net/feed.xml')
+    entry_base_url = feed_url.replace('feed.xml', '')
+
+    planned_url = feed_url.replace('feed', 'planned')
+    maintenance_posts = (data.get('current') or []) + (data.get('planned') or [])
+    maintenance_posts = [e for e in maintenance_posts if e.get('status') == 'maintenance']
+    feed_data = atom_data(maintenance_posts, planned_url, entry_base_url)
+    return render_template('atom.xml', **feed_data)
+
+
 @app.route('/feed.json')
 def json_index():
     data = get_data()

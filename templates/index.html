@@ -4,7 +4,12 @@
     <link href="/feed.xml" rel="feed" type="application/rss+xml" title="Status Page feed" />
 {% endblock %}
 {% block body %}
-<p>Incident feeds: <a href="/feed.xml">RSS</a> <a href="/feed.json">JSON</a></p>
+  <p>
+    Incident feeds:
+    <a href="/feed.xml">RSS</a>
+    <a href="/feed.json">JSON</a>
+    <a href="/planned.xml">Maintenance RSS</a>
+  </p>
   {% if show_edit %}
   <h2><a href="{{url_for('new_event')}}">Create event</a></h2>
   <form method="POST" action="{{url_for('publish')}}">
