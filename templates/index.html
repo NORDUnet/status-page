@@ -43,8 +43,9 @@
   <h2>Upcomming maintenance</h2>
   {% for event in planned %}
     <section class="event maintenance upcomming">
-      <header>
+      <header class="flex">
         <h3>{{event.title}}</h3>
+        {% if show_edit %}<span class="tags"><a href="{{url_for('edit', event_id=event.id)}}">Edit</a></span>{% endif %}
       </header>
       <div class="content">
         <p><span class="muted">{{event.start}}</span></p>
