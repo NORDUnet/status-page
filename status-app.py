@@ -218,7 +218,7 @@ def edit(event_id):
         if event_form['section'] and event_section != event_form['section']:
             # seciton changed
             data[event_section].remove(event)
-            data[event_form['section']].append(event)
+            data[event_form['section']] = [event] + (data.get(event_form['section']) or [])
             event_section = event_form['section']
 
         # cleanup
