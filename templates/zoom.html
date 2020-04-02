@@ -12,15 +12,32 @@
     {% endif %}
   {% endfor %}
 
-  <h3>Curent Zoom Users</h3>
+  <h3>Last day in numbers</h3>
+  <div class="flex">
+    <img height="75" src="/zoom/zoom_nbr_meeting_single.png">
+    <img height="75" src="/zoom/zoom_meeting_minutes_single.png">
+    <img height="75" src="/zoom/zoom_nbr_joins_single.png">
+    <img height="75" src="/zoom/zoom_nbr_new_users_single.png">
+    <img height="75" src="/zoom/zoom_peak_on_prem_single.png">
+  </div>
+
+  <h3>Meeings and minutes - the last 30 days</h3>
+  <a href="zoom/zoom_number_of_daily_meetings.png">
+    <img height="400" src="/zoom/zoom_number_of_daily_meetings.png">
+  </a>
+  <a href="zoom/zoom_meeting_minutes_daily.png">
+    <img height="400" src="/zoom/zoom_meeting_minutes_daily.png">
+  </a>
+
+  {#<h3>On-Prem curent Zoom Users</h3>
   <a href="/zoom/zoom_users_current.png">
     <img height="400" src="{{static_prefix}}/zoom/zoom_users_current.png">
   </a>
-  <h3>Zoom Users Last 24 Hours</h3>
+  <h3>On-Prem Zoom Users Last 24 Hours</h3>
   <a href="zoom/zoom_users_one_day.png">
     <img height="400"src="{{static_prefix}}/zoom/zoom_users_one_day.png">
   </a>
-  <h3>Zoom Users Last Week</h3>
+  <h3>On-Prem Zoom Users Last Week</h3>
   <a href="zoom/zoom_users_one_week.png">
     <img height="400"src="{{static_prefix}}/zoom/zoom_users_one_week.png">
   </a>
@@ -28,4 +45,5 @@
   <a href="zoom/zoom_users_four_weeks.png">
     <img height="400"src="{{static_prefix}}/zoom/zoom_users_four_weeks.png">
   </a>
+  #}
 {% endblock %}
