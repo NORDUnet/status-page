@@ -101,8 +101,9 @@ def main(out_dir, data_path, dev=False):
 
     # planned feed
     planned_url = feed_url.replace('feed', 'planned')
-    maintenance_posts = (data.get('current') or []) + (data.get('planned') or [])
-    maintenance_posts = [e for e in maintenance_posts if e.get('status') == 'maintenance']
+    current_posts = [e for e in (data.get('current') or []) if e.get('status') == 'maintenance']
+    planned_posts = data.get('planned') or []
+    maintenance_posts = current_posts + planned_posts
     feed_data = atom_data(maintenance_posts, planned_url, entry_base_url)
     gen_page(env, 'planned.xml', feed_data, out_dir, template='atom.xml')
 
