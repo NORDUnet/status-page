@@ -33,12 +33,7 @@
     </div>
     {% endfor %}
   </section>
-  {% if info %}
-  <h2>Info</h2>
-    {% for event in info %}
-      {% include "current_event.html" %}
-    {% endfor %}
-  {% endif %}
+
   {% if planned %}
   <h2>Upcomming maintenance</h2>
   {% for event in planned %}
@@ -52,6 +47,13 @@
         {{event.body|safe}}
       </div>
     </section>
+    {% endfor %}
+  {% endif %}
+
+  {% if info %}
+  <h2>Info</h2>
+    {% for event in info %}
+      {% include "current_event.html" %}
     {% endfor %}
   {% endif %}
 
