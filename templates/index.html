@@ -94,7 +94,7 @@
        <h4 class="{{event.status}}">{{event.title}} ({{event.status|capitalize()}}) {% if show_edit %}<a href="{{url_for('edit', event_id=event.id)}}">Edit</a>{% endif %}</h4>
        {% for update in event.updates %}
        <div class="update">
-         {% if update.title %}<strong>{{update.title}}</strong> - {% endif %}
+         {% if update.title %}<strong>{{update.title}} -</strong>{% endif %}
          {{h.markdown(update.body)|safe}}
          <br>
          <small>{{update.time}}</small>
